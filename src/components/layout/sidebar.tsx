@@ -116,8 +116,8 @@ export function Sidebar() {
       >
         {/* Logo */}
         <div className={`flex items-center h-16 px-4 border-b border-[var(--color-border-primary)] ${collapsed ? 'justify-center' : 'gap-3'}`}>
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--color-growl-lime)] to-[var(--color-growl-purple-light)] flex items-center justify-center flex-shrink-0">
-            <span className="text-[var(--color-bg-primary)] font-black text-sm">G</span>
+          <div className="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
+            <img src="/growl-logo-bg.png" alt="Growl Logo" className="w-full h-full object-cover" />
           </div>
           {!collapsed && (
             <div className="min-w-0">

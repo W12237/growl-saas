@@ -48,8 +48,8 @@ export default function LoginPage() {
         <div className="w-full max-w-sm" style={{ animation: 'fade-in-up 600ms ease-out' }}>
           {/* Logo */}
           <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B6FF2E] to-[#664893] flex items-center justify-center">
-              <span className="text-[#0A0A0A] font-black text-lg">G</span>
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg flex items-center justify-center">
+              <img src="/growl-logo-bg.png" alt="Growl Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-lg font-black text-white tracking-tight">Agency OS</h1>
@@ -132,8 +132,8 @@ export default function LoginPage() {
         <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full bg-[#664893]/20 blur-[150px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[#B6FF2E]/10 blur-[120px]" />
         <div className="relative z-10 text-center max-w-md px-8" style={{ animation: 'fade-in-up 800ms ease-out 200ms backwards' }}>
-          <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#B6FF2E] to-[#664893] flex items-center justify-center mx-auto mb-8 shadow-[0_0_60px_rgba(182,255,46,0.3)]">
-            <span className="text-[#0A0A0A] font-black text-3xl">G</span>
+          <div className="w-20 h-20 rounded-3xl overflow-hidden flex items-center justify-center mx-auto mb-8 shadow-[0_0_60px_rgba(182,255,46,0.3)]">
+            <img src="/growl-logo-bg.png" alt="Growl Logo" className="w-full h-full object-cover" />
           </div>
           <h2 className="text-3xl font-black text-white mb-4">
             Your Agency&apos;s

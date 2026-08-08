@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description: "The premium operating system for modern marketing agencies. Manage clients, projects, campaigns, finances, and AI workflows in one unified platform.",
   keywords: "agency management, project management, CRM, AI marketing, campaign management, agency OS",
   authors: [{ name: "Growl Agency" }],
+  icons: {
+    icon: "/growl-logo-bg.png",
+    shortcut: "/growl-logo-bg.png",
+    apple: "/growl-logo-bg.png",
+  },
 };
 
 import ThemeProvider from '@/components/ThemeProvider';
@@ -20,6 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/growl-logo-bg.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/growl-logo-bg.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
