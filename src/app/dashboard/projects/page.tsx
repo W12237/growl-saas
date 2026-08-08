@@ -16,6 +16,8 @@ import {
   PlayCircle
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const COLUMNS = [
