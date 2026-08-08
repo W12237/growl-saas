@@ -108,7 +108,7 @@ export function Sidebar() {
       {/* Desktop Sidebar */}
       <aside
         className={`
-          hidden lg:flex flex-col fixed top-0 ltr:left-0 rtl:right-0 h-screen z-40
+          sidebar-desktop hidden lg:flex flex-col fixed top-0 ltr:left-0 rtl:right-0 h-screen z-40
           bg-[var(--color-bg-secondary)] border-r rtl:border-r-0 rtl:border-l border-[var(--color-border-primary)]
           transition-all duration-300 ease-out
           ${collapsed ? 'w-[72px]' : 'w-[260px]'}

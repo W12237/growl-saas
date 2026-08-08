@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary transition-colors duration-200">
       <Sidebar />
-      <div className="lg:pl-[260px] transition-all duration-300">
+      <div className="dashboard-content-wrapper lg:pl-[260px] rtl:lg:pl-0 rtl:lg:pr-[260px] ltr:lg:pl-[260px] ltr:lg:pr-0 transition-all duration-300">
         <Topbar onCommandPalette={() => setCommandPaletteOpen(true)} />
         <main className="p-4 sm:p-6 lg:p-8 pb-24 lg:pb-8 min-h-[calc(100vh-4rem)]">
           {children}

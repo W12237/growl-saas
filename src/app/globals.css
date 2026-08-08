@@ -424,6 +424,23 @@ html[dir="rtl"] body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+@media (min-width: 1024px) {
+  html[dir="rtl"] .dashboard-content-wrapper {
+    padding-left: 0 !important;
+    padding-right: 260px !important;
+  }
+  html[dir="ltr"] .dashboard-content-wrapper {
+    padding-left: 260px !important;
+    padding-right: 0 !important;
+  }
+  html[dir="rtl"] .sidebar-desktop {
+    left: auto !important;
+    right: 0 !important;
+    border-right-width: 0px !important;
+    border-left-width: 1px !important;
+  }
+}
+
 html[dir="rtl"] .border-r {
   border-right-width: 0px !important;
   border-left-width: 1px !important;

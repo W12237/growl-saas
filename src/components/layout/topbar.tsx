@@ -186,7 +186,7 @@ export function Topbar({ onCommandPalette }: TopbarProps) {
             className="flex items-center gap-3 h-9 px-4 rounded-xl bg-[var(--color-bg-tertiary)] border border-[var(--color-border-primary)] text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-hover)] transition-all duration-200 max-w-md w-full lg:w-80"
           >
             <Search className="w-4 h-4 text-[var(--color-text-muted)]" />
-            <span className="text-sm flex-1 text-left">Search control panel...</span>
+            <span className="text-sm flex-1 text-start">{t('searchPlaceholder')}</span>
             <kbd className="hidden sm:flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] text-[10px] font-mono text-[var(--color-text-muted)]">
               <Command className="w-3 h-3" />
               <span>K</span>
