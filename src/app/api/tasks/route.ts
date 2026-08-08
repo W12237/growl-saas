@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { requireAuth, isErrorResponse, requireAdmin } from '@/lib/auth';
+import { requireAuth, isErrorResponse, requireRole } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -122,7 +122,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const adminCheck = await requireAdmin(req);
+  const adminCheck = await requireRole(req, ['Admin']);
   if (isErrorResponse(adminCheck)) return adminCheck;
 
   try {
