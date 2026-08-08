@@ -52,7 +52,6 @@ export default function SettingsPage() {
   
   // States to persist in local storage
   const [theme, setTheme] = useState('dark');
-  const [language, setLanguage] = useState('en');
   const [accentColor, setAccentColor] = useState('purple');
 
   const { data: auditLogs, isLoading: isLoadingLogs } = useSWR(
