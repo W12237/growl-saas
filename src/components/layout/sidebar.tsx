@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { Avatar } from '@/components/ui';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 // ── Icons (inline SVGs for zero-dependency) ──
@@ -69,6 +71,7 @@ const sections: Record<string, string> = {
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const { data: auth } = useSWR('/api/auth/me', fetcher, { fallbackData: null });
   const { data: notificationsData } = useSWR('/api/notifications', fetcher, { fallbackData: [] });
@@ -87,26 +90,26 @@ export function Sidebar() {
 
   const groupedLinks = Object.keys(sections).map(section => ({
     section,
-    label: sections[section],
+    label: t('sec.' + section),
     links: navLinks
       .filter(l => l.section === section)
-      .filter(l => !l.adminOnly || isAdmin) // Hide admin-only links for non-admins
+      .filter(l => !l.adminOnly || isAdmin)
       .map(l => {
-        // Dynamically assign the badge to Dashboard for unread notifications
-        if (l.label === 'Dashboard' && unreadCount > 0) {
-          return { ...l, badge: unreadCount };
+        const translatedLabel = t('nav.' + l.icon);
+        if (l.icon === 'dashboard' && unreadCount > 0) {
+          return { ...l, label: translatedLabel, badge: unreadCount };
         }
-        return l;
+        return { ...l, label: translatedLabel };
       }),
-  })).filter(group => group.links.length > 0); // Hide empty sections
+  })).filter(group => group.links.length > 0);
 
   return (
     <>
       {/* Desktop Sidebar */}
       <aside
         className={`
-          hidden lg:flex flex-col fixed top-0 left-0 h-screen z-40
-          bg-[var(--color-bg-secondary)] border-r border-[var(--color-border-primary)]
+          hidden lg:flex flex-col fixed top-0 ltr:left-0 rtl:right-0 h-screen z-40
+          bg-[var(--color-bg-secondary)] border-r rtl:border-r-0 rtl:border-l border-[var(--color-border-primary)]
           transition-all duration-300 ease-out
           ${collapsed ? 'w-[72px]' : 'w-[260px]'}
         `}
@@ -118,8 +121,8 @@ export function Sidebar() {
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <h1 className="text-sm font-black text-[var(--color-text-primary)] tracking-tight truncate">Agency OS</h1>
-              <p className="text-[10px] text-[var(--color-text-muted)] font-medium truncate">Growl Cloud</p>
+              <h1 className="text-sm font-black text-[var(--color-text-primary)] tracking-tight truncate">{t('appName')}</h1>
+              <p className="text-[10px] text-[var(--color-text-muted)] font-medium truncate">{t('appSub')}</p>
             </div>
           )}
         </div>

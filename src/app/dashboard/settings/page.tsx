@@ -28,9 +28,12 @@ import {
   Lock
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function SettingsPage() {
+  const { language, setLanguage, t } = useLanguage();
   const { data: auth } = useSWR('/api/auth/me', fetcher);
   const isAdmin = auth?.user?.role === 'Admin';
 
@@ -457,34 +460,40 @@ export default function SettingsPage() {
                   
                   <div className="space-y-6 max-w-xl">
                     <div>
-                      <label className="block text-xs font-bold text-white/50 uppercase tracking-wider mb-3">Display Language</label>
+                      <label className="block text-xs font-bold text-[var(--color-text-muted)] uppercase tracking-wider mb-3">{t('settings.selectLang')}</label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <button 
-                          onClick={() => setLanguage('en')}
+                          onClick={() => {
+                            setLanguage('en');
+                            localStorage.setItem('agency_lang', 'en');
+                          }}
                           className={`relative p-4 rounded-xl border transition-all flex items-center gap-4 text-left ${
-                            language === 'en' ? 'border-[#8B5CF6] bg-[#8B5CF6]/5' : 'border-white/10 bg-black/40 hover:border-white/20'
+                            language === 'en' ? 'border-[var(--color-growl-lime)] bg-[var(--color-growl-lime)]/10' : 'border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] hover:border-[var(--color-border-hover)]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center font-black text-white">EN</div>
+                          <div className="w-8 h-8 rounded bg-[var(--color-bg-tertiary)] flex items-center justify-center font-black text-[var(--color-text-primary)]">EN</div>
                           <div>
-                            <div className="text-sm font-bold text-white">English</div>
-                            <div className="text-xs text-white/40">United States</div>
+                            <div className="text-sm font-bold text-[var(--color-text-primary)]">English</div>
+                            <div className="text-xs text-[var(--color-text-muted)]">United States</div>
                           </div>
-                          {language === 'en' && <CheckCircle2 className="w-4 h-4 text-[#8B5CF6] absolute right-4" />}
+                          {language === 'en' && <CheckCircle2 className="w-4 h-4 text-[var(--color-growl-lime)] absolute ltr:right-4 rtl:left-4" />}
                         </button>
                         
                         <button 
-                          onClick={() => setLanguage('ar')}
+                          onClick={() => {
+                            setLanguage('ar');
+                            localStorage.setItem('agency_lang', 'ar');
+                          }}
                           className={`relative p-4 rounded-xl border transition-all flex items-center gap-4 text-left ${
-                            language === 'ar' ? 'border-[#8B5CF6] bg-[#8B5CF6]/5' : 'border-white/10 bg-black/40 hover:border-white/20'
+                            language === 'ar' ? 'border-[var(--color-growl-lime)] bg-[var(--color-growl-lime)]/10' : 'border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] hover:border-[var(--color-border-hover)]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center font-black text-white">AR</div>
+                          <div className="w-8 h-8 rounded bg-[var(--color-bg-tertiary)] flex items-center justify-center font-black text-[var(--color-text-primary)]">AR</div>
                           <div>
-                            <div className="text-sm font-bold text-white">Arabic (العربية)</div>
-                            <div className="text-xs text-white/40">RTL Support</div>
+                            <div className="text-sm font-bold text-[var(--color-text-primary)]">العربية (Arabic)</div>
+                            <div className="text-xs text-[var(--color-text-muted)]">RTL Layout</div>
                           </div>
-                          {language === 'ar' && <CheckCircle2 className="w-4 h-4 text-[#8B5CF6] absolute right-4" />}
+                          {language === 'ar' && <CheckCircle2 className="w-4 h-4 text-[var(--color-growl-lime)] absolute ltr:right-4 rtl:left-4" />}
                         </button>
                       </div>
                       {language === 'ar' && (

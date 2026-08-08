@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
 import ThemeProvider from '@/components/ThemeProvider';
 import SecurityManager from '@/components/SecurityManager';
+import { LanguageProvider } from '@/lib/i18n';
 
 export default function RootLayout({
   children,
@@ -27,10 +28,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-bg-primary text-text-primary antialiased">
-        <ThemeProvider>
-          <SecurityManager />
-          {children}
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <SecurityManager />
+            {children}
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

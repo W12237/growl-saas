@@ -29,8 +29,16 @@ interface TopbarProps {
   onCommandPalette?: () => void;
 }
 
+import { useLanguage } from '@/lib/i18n';
+
 export function Topbar({ onCommandPalette }: TopbarProps) {
+  const { language, setLanguage, t } = useLanguage();
   const router = useRouter();
+
+  const handleToggleLanguage = () => {
+    const nextLang = language === 'ar' ? 'en' : 'ar';
+    setLanguage(nextLang);
+  };
   const { data: auth, mutate } = useSWR('/api/auth/me', fetcher, { fallbackData: null });
   const { data: team } = useSWR('/api/team', fetcher, { fallbackData: [] });
   
@@ -187,6 +195,16 @@ export function Topbar({ onCommandPalette }: TopbarProps) {
 
           {/* Right: Actions */}
           <div className="flex items-center gap-3">
+            {/* Quick Language Switcher */}
+            <button
+              onClick={handleToggleLanguage}
+              title="Switch Language / تغيير اللغة"
+              className="h-9 px-3 flex items-center gap-1.5 rounded-xl bg-[var(--color-bg-tertiary)] border border-[var(--color-border-primary)] text-xs font-bold text-[var(--color-text-primary)] hover:border-[var(--color-growl-lime)] transition-all duration-200"
+            >
+              <Globe className="w-3.5 h-3.5 text-[var(--color-growl-lime)]" />
+              <span>{t('switchLang')}</span>
+            </button>
+
             {/* Quick C-Panel Theme Switcher */}
             <button
               onClick={handleToggleTheme}
