@@ -1,0 +1,258 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(cuid())
+  name        String
+  email       String?   @unique
+  password    String?
+  role        String?   @default("Member") // Admin, Member, Viewer
+  department  String?
+  title       String?
+  phone       String?
+  avatar      String?
+  status      String    @default("offline")
+  isAI        Boolean   @default(false)
+  performance Int?      @default(100)
+  lastActiveAt DateTime?
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  messages       Message[]
+  auditLogs      AuditLog[]
+  automations    Automation[]
+  uploadedFiles  FileAsset[]
+  userPolicies   UserPolicy[]
+  notifications  Notification[]
+  
+  // Created-by tracking
+  createdProjects  Project[]  @relation("ProjectCreator")
+  assignedLeads    Lead[]     @relation("LeadAssignee")
+  createdCampaigns Campaign[] @relation("CampaignCreator")
+  createdApprovals Approval[] @relation("ApprovalSubmitter")
+}
+
+model Policy {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  permissions String   // JSON array of permission strings e.g. ["read:*","write:own"]
+  isSystem    Boolean  @default(false) // System policies cannot be deleted
+  createdAt   DateTime @default(now())
+  
+  userPolicies UserPolicy[]
+}
+
+model UserPolicy {
+  id        String   @id @default(cuid())
+  userId    String
+  policyId  String
+  assignedAt DateTime @default(now())
+  
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  policy Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, policyId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String   // e.g. "create", "update", "delete", "login", "logout"
+  resource   String   // e.g. "project", "client", "user"
+  resourceId String?
+  metadata   String?  // JSON string with extra details
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Channel {
+  id        String    @id @default(cuid())
+  name      String
+  type      String    @default("channel") // "channel" or "dm"
+  unread    Int       @default(0)
+  isAI      Boolean   @default(false)
+  messages  Message[]
+}
+
+model Message {
+  id        Int       @id @default(autoincrement())
+  content   String
+  createdAt DateTime  @default(now())
+  
+  senderId  String
+  sender    User      @relation(fields: [senderId], references: [id])
+  
+  channelId String
+  channel   Channel   @relation(fields: [channelId], references: [id])
+}
+
+model ContentPost {
+  id            String   @id @default(cuid())
+  platform      String   // Twitter, LinkedIn, Blog, etc.
+  content       String
+  status        String   @default("draft") // draft, scheduled, published
+  scheduledDate DateTime?
+  createdAt     DateTime @default(now())
+}
+
+model Invoice {
+  id        String   @id @default(cuid())
+  invoiceId String   @unique
+  client    String
+  amount    Float
+  status    String   @default("pending") // paid, pending, overdue, draft
+  date      DateTime @default(now())
+  dueDate   DateTime
+  createdAt DateTime @default(now())
+}
+
+model Meeting {
+  id           String   @id @default(cuid())
+  title        String
+  client       String
+  time         String   // e.g. "Aug 10, 1:00 PM - 2:00 PM" or ISO string
+  status       String   @default("upcoming") // upcoming, completed
+  platform     String   // Zoom, Google Meet, Teams
+  link         String?
+  attendees    String   // comma-separated names
+  hasRecording Boolean  @default(false)
+  hasAiSummary Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  client      String
+  status      String   @default("planning") // planning, active, review, completed
+  progress    Int      @default(0) // 0-100
+  priority    String   @default("medium") // low, medium, high
+  dueDate     DateTime
+  team        String   // comma-separated names of assignees
+  createdById String?
+  createdBy   User?    @relation("ProjectCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  title       String
+  client      String
+  type        String   @default("performance") // performance, seo, social, custom
+  dateRange   String
+  status      String   @default("ready") // generating, ready, archived
+  aiInsights  String?
+  metrics     String?
+  createdAt   DateTime @default(now())
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  desc      String
+  type      String   // income, expense
+  amount    Float
+  category  String
+  date      DateTime @default(now())
+}
+
+model Lead {
+  id            String   @id @default(cuid())
+  company       String
+  contactPerson String
+  email         String?
+  value         Float    @default(0)
+  probability   Int      @default(10) // 0-100%
+  stage         String   @default("lead") // lead, prospect, meeting, proposal, contract, client
+  assignedToId  String?
+  assignedTo    User?    @relation("LeadAssignee", fields: [assignedToId], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model Client {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  industry        String?
+  contactPerson   String?
+  email           String?
+  phone           String?
+  status          String   @default("active") // active, onboarding, inactive
+  health          String   @default("good")   // excellent, good, at_risk
+  monthlyRetainer Float    @default(0)
+  createdAt       DateTime @default(now())
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  name        String
+  client      String?
+  platform    String   // e.g., LinkedIn, Meta, Google
+  status      String   @default("draft") // draft, active, completed
+  budget      Float    @default(0)
+  spend       Float    @default(0)
+  conversions Int      @default(0)
+  roi         String?  // e.g., "+142%"
+  createdById String?
+  createdBy   User?    @relation("CampaignCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Approval {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   // e.g., image, document, video
+  submitterId String?
+  submitter   User?    @relation("ApprovalSubmitter", fields: [submitterId], references: [id])
+  client      String?
+  status      String   @default("pending") // pending, approved, rejected
+  createdAt   DateTime @default(now())
+}
+
+model Automation {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  trigger     String?  // e.g., "new_deal", "invoice_overdue", "schedule"
+  actions     String?  // JSON string describing workflow steps
+  status      String   @default("active") // active, paused
+  runs        Int      @default(0)
+  lastRunAt   DateTime?
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model FileAsset {
+  id           String   @id @default(cuid())
+  name         String
+  type         String   // image, video, document, archive
+  size         Int      @default(0) // bytes
+  folder       String   @default("all")
+  url          String?
+  uploadedById String
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("info") // info, success, warning, error
+  link      String?  
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
