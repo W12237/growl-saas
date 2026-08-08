@@ -45,7 +45,95 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.automation': 'Automations',
     'nav.settings': 'Settings',
 
-    // Settings Tabs
+    // Dashboard Page
+    'dash.title': 'Agency Executive Overview',
+    'dash.subtitle': 'Real-time performance, active revenue, client metrics, and operational health.',
+    'dash.revenue': 'Total Revenue',
+    'dash.clients': 'Active Clients',
+    'dash.profit': 'Net Profit',
+    'dash.tasks': 'Tasks Due',
+    'dash.campaignPerf': 'Campaign Revenue Growth',
+    'dash.activities': 'Recent System Activity',
+    'dash.meetings': 'Upcoming Meetings',
+    'dash.teamProd': 'Team Productivity',
+
+    // CRM
+    'crm.title': 'Deal Pipeline & CRM',
+    'crm.subtitle': 'Track prospective clients, deal stages, contract values, and conversion probabilities.',
+    'crm.addLead': 'New Deal',
+    'crm.stage.lead': 'Lead Inbound',
+    'crm.stage.prospect': 'Qualified Prospect',
+    'crm.stage.meeting': 'Discovery Meeting',
+    'crm.stage.proposal': 'Proposal Sent',
+    'crm.stage.closed': 'Closed Won',
+
+    // Clients
+    'clients.title': 'Client Management',
+    'clients.subtitle': 'Active retainers, client health indicators, key contacts, and onboarding status.',
+    'clients.addClient': 'Add Client',
+    'clients.health.good': 'Excellent Health',
+    'clients.health.atRisk': 'Needs Attention',
+    'clients.retainer': 'Monthly Retainer',
+
+    // Projects
+    'projects.title': 'Project Hub',
+    'projects.subtitle': 'Monitor ongoing project deliverables, deadlines, progress tracking, and assigned teams.',
+    'projects.newProject': 'Create Project',
+    'projects.status.active': 'Active',
+    'projects.status.planning': 'Planning',
+    'projects.status.completed': 'Completed',
+
+    // Campaigns
+    'campaigns.title': 'Marketing Campaigns',
+    'campaigns.subtitle': 'Manage multi-channel campaigns, ad spend, conversion goals, and ROI metrics.',
+    'campaigns.newCampaign': 'Launch Campaign',
+
+    // Content Engine
+    'content.title': 'Content Production',
+    'content.subtitle': 'Draft, schedule, and publish multi-platform content assets across digital channels.',
+    'content.newPost': 'Create Post',
+
+    // Approvals
+    'approvals.title': 'Approval Workflows',
+    'approvals.subtitle': 'Client and management approval requests for creative assets, budgets, and milestones.',
+    'approvals.pending': 'Pending Review',
+    'approvals.approved': 'Approved',
+    'approvals.rejected': 'Rejected',
+
+    // Files
+    'files.title': 'Asset Vault & Files',
+    'files.subtitle': 'Secure cloud file storage for agency brand assets, legal contracts, and media files.',
+    'files.upload': 'Upload Asset',
+
+    // Reports
+    'reports.title': 'Analytics & Reports',
+    'reports.subtitle': 'Executive performance analytics, campaign ROI reports, and custom data exports.',
+    'reports.generate': 'Generate Report',
+
+    // Finance
+    'finance.title': 'Financial Management',
+    'finance.subtitle': 'Track income, software expenses, client invoices, and profit margins.',
+    'finance.newInvoice': 'New Invoice',
+
+    // Team
+    'team.title': 'Team & Permissions',
+    'team.subtitle': 'Manage agency staff accounts, assign system roles, and configure policy permissions.',
+    'team.addMember': 'Add Team Member',
+
+    // Chat
+    'chat.title': 'Team Chat & DMs',
+    'chat.subtitle': 'Real-time team messaging, project channels, and direct communication.',
+
+    // Meetings
+    'meetings.title': 'Meeting Schedule',
+    'meetings.subtitle': 'Upcoming client calls, team syncs, and automated AI meeting summaries.',
+    'meetings.schedule': 'Schedule Meeting',
+
+    // Automation
+    'meetings.automationTitle': 'Workflow Automations',
+    'meetings.automationSubtitle': 'Automate lead follow-ups, invoice reminders, and project status triggers.',
+
+    // Settings
     'settings.title': 'Settings & System Control',
     'settings.subtitle': 'Manage your profile, team permissions, branding aesthetics, and global system configurations.',
     'settings.tab.profile': 'My Profile',
@@ -53,16 +141,12 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.tab.appearance': 'Appearance',
     'settings.tab.language': 'Language & Region',
     'settings.tab.security': 'Security',
-    
-    // Appearance & Language Tab
     'settings.themeMode': 'Theme Mode',
     'settings.darkMode': 'Dark Mode',
     'settings.lightMode': 'Light Mode',
     'settings.systemDefault': 'System Default',
     'settings.accentColor': 'Accent Color',
     'settings.selectLang': 'Primary Language',
-    'settings.langEn': 'English (United States)',
-    'settings.langAr': 'العربية (Arabic)',
     'settings.save': 'Save Preferences',
     'settings.saving': 'Saving Changes...',
 
@@ -92,7 +176,8 @@ const translations: Record<Language, Record<string, string>> = {
     'common.role': 'Role',
     'common.admin': 'Admin',
     'common.member': 'Member',
-    'common.actions': 'Actions'
+    'common.actions': 'Actions',
+    'common.noData': 'No records found in database.'
   },
   ar: {
     // Brand & Header
@@ -126,7 +211,95 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.automation': 'الأتمتة والمهام',
     'nav.settings': 'الإعدادات',
 
-    // Settings Tabs
+    // Dashboard Page
+    'dash.title': 'الملخص التنفيذي للوكالة',
+    'dash.subtitle': 'الأداء في الوقت الفعلي، الإيرادات النشطة، مقاييس العملاء، والصحة التشغيلية.',
+    'dash.revenue': 'إجمالي الإيرادات',
+    'dash.clients': 'العملاء النشطون',
+    'dash.profit': 'صافي الأرباح',
+    'dash.tasks': 'المهام المستحقة',
+    'dash.campaignPerf': 'نمو إيرادات الحملات',
+    'dash.activities': 'نشاط النظام الأخير',
+    'dash.meetings': 'الاجتماعات القادمة',
+    'dash.teamProd': 'إنتاجية الفريق',
+
+    // CRM
+    'crm.title': 'خط الصفقات وإدارة العملاء',
+    'crm.subtitle': 'متابعة العملاء المحتملين، مراحل الصفقات، قيم العقود، واحتمالات الإغلاق.',
+    'crm.addLead': 'صفقة جديدة',
+    'crm.stage.lead': 'عميل محتمل جديد',
+    'crm.stage.prospect': 'مؤهل للتفاوض',
+    'crm.stage.meeting': 'اجتماع الاستكشاف',
+    'crm.stage.proposal': 'تم إرسال العرض',
+    'crm.stage.closed': 'صفقة ناجحة',
+
+    // Clients
+    'clients.title': 'إدارة العملاء',
+    'clients.subtitle': 'العقود الشهرية، مؤشرات صحة العملاء، جهات الاتصال الرئيسية، وحالة التهيئة.',
+    'clients.addClient': 'إضافة عميل',
+    'clients.health.good': 'حالة ممتازة',
+    'clients.health.atRisk': 'يحتاج متابعة',
+    'clients.retainer': 'العقد الشهري',
+
+    // Projects
+    'projects.title': 'مركز المشاريع',
+    'projects.subtitle': 'مراقبة تسليمات المشاريع، المواعيد النهائية، تتبع التقدم، والفرق المعينة.',
+    'projects.newProject': 'مشروع جديد',
+    'projects.status.active': 'نشط',
+    'projects.status.planning': 'قيد التخطيط',
+    'projects.status.completed': 'مكتمل',
+
+    // Campaigns
+    'campaigns.title': 'الحملات التسويقية',
+    'campaigns.subtitle': 'إدارة الحملات عبر المنصات، الميزانية، أهداف التحويل، ومقاييس عائد الاستثمار.',
+    'campaigns.newCampaign': 'إطلاق حملة',
+
+    // Content Engine
+    'content.title': 'إنتاج المحتوى',
+    'content.subtitle': 'صياغة وجدولة ونشر الأصول الرقمية والمحتوى عبر مختلف القنوات.',
+    'content.newPost': 'منشور جديد',
+
+    // Approvals
+    'approvals.title': 'مسارات الموافقات',
+    'approvals.subtitle': 'طلبات موافقة العملاء والإدارة على التصاميم، الميزانيات، والمراحل.',
+    'approvals.pending': 'قيد المراجعة',
+    'approvals.approved': 'مقبول',
+    'approvals.rejected': 'مرفوض',
+
+    // Files
+    'files.title': 'خزينة الأصول والملفات',
+    'files.subtitle': 'تخزين سحابي آمن لأصول الهوية البصرية، العقود القانونية، وملفات الميديا.',
+    'files.upload': 'رفع ملف',
+
+    // Reports
+    'reports.title': 'التقارير والتحليلات',
+    'reports.subtitle': 'تحليلات الأداء التنفيذي، تقارير عائد الاستثمار، وتصدير البيانات.',
+    'reports.generate': 'إنشاء تقرير',
+
+    // Finance
+    'finance.title': 'الإدارة المالية',
+    'finance.subtitle': 'تتبع الإيرادات، المصروفات البرمجية، فواتير العملاء، وهامش الربح.',
+    'finance.newInvoice': 'فاتورة جديدة',
+
+    // Team
+    'team.title': 'الفريق والصلاحيات',
+    'team.subtitle': 'إدارة حسابات موظفي الوكالة، تعيين الأدوار، وتكوين سياسات الأمان.',
+    'team.addMember': 'إضافة عضو',
+
+    // Chat
+    'chat.title': 'محادثات الفريق',
+    'chat.subtitle': 'التواصل الفوري بين أعضاء الفريق، قنوات المشاريع، والرسائل المباشرة.',
+
+    // Meetings
+    'meetings.title': 'جدول الاجتماعات',
+    'meetings.subtitle': 'مكالمات العملاء القادمة، مزامنة الفريق، وملخصات الاجتماعات الذكية.',
+    'meetings.schedule': 'جدولة اجتماع',
+
+    // Automation
+    'meetings.automationTitle': 'أتمتة سير العمل',
+    'meetings.automationSubtitle': 'أتمتة متابعة العملاء المحتملين، تذكيرات الفواتير، ومحفزات المشاريع.',
+
+    // Settings
     'settings.title': 'الإعدادات وإدارة النظام',
     'settings.subtitle': 'إدارة ملفك الشخصي، صلاحيات الفريق، مظهر النظام، والإعدادات العامة.',
     'settings.tab.profile': 'ملفي الشخصي',
@@ -134,16 +307,12 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.tab.appearance': 'المظهر والألوان',
     'settings.tab.language': 'اللغة والمنطقة',
     'settings.tab.security': 'الأمان',
-
-    // Appearance & Language Tab
     'settings.themeMode': 'وضع المظهر',
     'settings.darkMode': 'الوضع الداكن',
     'settings.lightMode': 'الوضع الفاتح',
     'settings.systemDefault': 'حسب النظام',
     'settings.accentColor': 'اللون المميز',
     'settings.selectLang': 'اللغة الرئيسية',
-    'settings.langEn': 'English (الإنجليزية)',
-    'settings.langAr': 'العربية (Arabic)',
     'settings.save': 'حفظ التفضيلات',
     'settings.saving': 'جاري الحفظ...',
 
@@ -173,7 +342,8 @@ const translations: Record<Language, Record<string, string>> = {
     'common.role': 'الدور',
     'common.admin': 'مسؤول',
     'common.member': 'عضو',
-    'common.actions': 'الإجراءات'
+    'common.actions': 'الإجراءات',
+    'common.noData': 'لا توجد بيانات مسجلة في قاعدة البيانات.'
   }
 };
 

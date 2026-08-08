@@ -18,6 +18,8 @@ import {
   X
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const healthConfig: Record<string, { label: string; variant: 'success' | 'warning' | 'error' | 'info' }> = {
@@ -35,6 +37,7 @@ const statusConfig: Record<string, { label: string; variant: 'success' | 'warnin
 };
 
 export default function ClientsPage() {
+  const { t } = useLanguage();
   const { data: clients, mutate, isLoading } = useSWR('/api/clients', fetcher, { fallbackData: [] });
   
   const [search, setSearch] = useState('');
@@ -90,18 +93,17 @@ export default function ClientsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.15)] text-[#8B5CF6]">
+            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6]">
               <Users className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Clients</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('clients.title')}</h1>
           </div>
-          <p className="text-white/40 max-w-xl text-sm leading-relaxed">
-            Manage your agency's clients, track their health, and monitor revenue in one place.
-            Currently managing {safeClients.length} clients with {formatCurrency(totalRetainer)}/mo in active retainers.
+          <p className="text-[var(--color-text-muted)] max-w-xl text-sm leading-relaxed">
+            {t('clients.subtitle')}
           </p>
         </div>
         <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsModalOpen(true)}>
-          Add Client
+          {t('clients.addClient')}
         </Button>
       </div>
 

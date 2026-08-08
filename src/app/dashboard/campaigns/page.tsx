@@ -24,6 +24,8 @@ import {
   Activity
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const platformColors: Record<string, string> = {
@@ -35,6 +37,7 @@ const platformColors: Record<string, string> = {
 };
 
 export default function CampaignsPage() {
+  const { t } = useLanguage();
   const { data: campaigns, mutate, isLoading } = useSWR('/api/campaigns', fetcher, { fallbackData: [] });
   
   const [activeTab, setActiveTab] = useState('active');
@@ -113,18 +116,17 @@ export default function CampaignsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.15)] text-[#F59E0B]">
+            <div className="w-10 h-10 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center text-[#F59E0B]">
               <Megaphone className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Campaigns</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('campaigns.title')}</h1>
           </div>
-          <p className="text-white/40 max-w-xl text-sm leading-relaxed">
-            Track and manage your multi-channel marketing campaigns. 
-            Currently running {activeCount} active campaigns across {new Set(safeCampaigns.map((c: any) => c.platform)).size} platforms.
+          <p className="text-[var(--color-text-muted)] max-w-xl text-sm leading-relaxed">
+            {t('campaigns.subtitle')}
           </p>
         </div>
         <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsModalOpen(true)}>
-          New Campaign
+          {t('campaigns.newCampaign')}
         </Button>
       </div>
 

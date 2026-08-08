@@ -26,6 +26,7 @@ const COLUMNS = [
 ];
 
 export default function ProjectsPage() {
+  const { t } = useLanguage();
   const { data: projects, mutate, isLoading } = useSWR('/api/projects', fetcher, { fallbackData: [] });
   
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,16 +104,16 @@ export default function ProjectsPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 shrink-0">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.15)] text-[#8B5CF6]">
+            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6]">
               <ClipboardList className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Projects</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('projects.title')}</h1>
           </div>
-          <p className="text-white/40 text-sm">Manage all your agency projects with this dynamic Kanban board.</p>
+          <p className="text-[var(--color-text-muted)] text-sm">{t('projects.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsModalOpen(true)}>
-            New Project
+            {t('projects.newProject')}
           </Button>
         </div>
       </div>

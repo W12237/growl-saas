@@ -5,6 +5,8 @@ import useSWR from 'swr';
 import { Card, Badge, Avatar, Skeleton } from '@/components/ui';
 import { formatRelativeTime } from '@/lib/formatters';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 // ── Animated Counter ──
@@ -90,6 +92,7 @@ function MeetingIcon({ type }: { type: string }) {
 }
 
 export default function DashboardPage() {
+  const { t } = useLanguage();
   const { data: m, isLoading: loading } = useSWR('/api/dashboard', fetcher);
   const { data: auth } = useSWR('/api/auth/me', fetcher);
 
@@ -114,10 +117,10 @@ export default function DashboardPage() {
   }
 
   const kpis = [
-    { label: 'Total Revenue', value: m.revenue?.current || 0, prefix: '$', change: m.revenue?.change || 0, changeType: m.revenue?.changeType || 'increase', sparkline: m.revenue?.sparkline || [], color: '#B6FF2E' },
-    { label: 'Active Clients', value: m.activeClients?.current || 0, change: m.activeClients?.change || 0, changeType: m.activeClients?.changeType || 'increase', sparkline: m.activeClients?.sparkline || [], color: '#8B5CF6' },
-    { label: 'Net Profit', value: m.profit?.current || 0, prefix: '$', change: m.profit?.change || 0, changeType: m.profit?.changeType || 'increase', sparkline: m.profit?.sparkline || [], color: '#34D399' },
-    { label: 'Tasks Due', value: m.tasksDue?.current || 0, change: Math.abs(m.tasksDue?.change || 0), changeType: m.tasksDue?.changeType || 'decrease', sparkline: m.tasksDue?.sparkline || [], color: '#FBBF24' },
+    { label: t('dash.revenue'), value: m.revenue?.current || 0, prefix: '$', change: m.revenue?.change || 0, changeType: m.revenue?.changeType || 'increase', sparkline: m.revenue?.sparkline || [], color: '#B6FF2E' },
+    { label: t('dash.clients'), value: m.activeClients?.current || 0, change: m.activeClients?.change || 0, changeType: m.activeClients?.changeType || 'increase', sparkline: m.activeClients?.sparkline || [], color: '#8B5CF6' },
+    { label: t('dash.profit'), value: m.profit?.current || 0, prefix: '$', change: m.profit?.change || 0, changeType: m.profit?.changeType || 'increase', sparkline: m.profit?.sparkline || [], color: '#34D399' },
+    { label: t('dash.tasks'), value: m.tasksDue?.current || 0, change: Math.abs(m.tasksDue?.change || 0), changeType: m.tasksDue?.changeType || 'decrease', sparkline: m.tasksDue?.sparkline || [], color: '#FBBF24' },
   ];
 
   const userName = auth?.user?.name ? auth.user.name.split(' ')[0] : 'there';
@@ -126,10 +129,10 @@ export default function DashboardPage() {
     <div style={{ animation: 'fade-in-up 500ms ease-out' }}>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-          Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {userName}
+        <h1 className="text-2xl sm:text-3xl font-black text-[var(--color-text-primary)] tracking-tight">
+          {t('dash.title')}
         </h1>
-        <p className="text-sm text-white/40 mt-1">Here&apos;s a live overview of your agency based on your latest data.</p>
+        <p className="text-sm text-[var(--color-text-muted)] mt-1">{t('dash.subtitle')}</p>
       </div>
 
       {/* KPI Cards */}

@@ -396,3 +396,40 @@ html[data-accent="teal"] {
   --color-border-lime: rgba(20, 184, 166, 0.35);
   --shadow-glow-lime: 0 0 25px rgba(20, 184, 166, 0.4);
 }
+
+/* Smart Light Mode Card & Panel Refinements */
+html.light-theme .bg-\[\#0A0A0A\],
+html.light-theme .bg-black\/20,
+html.light-theme .bg-black\/40 {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light-theme .border-white\/5,
+html.light-theme .border-white\/10,
+html.light-theme .border-white\/15,
+html.light-theme .border-white\/20 {
+  border-color: #E2E8F0 !important;
+}
+
+html.light-theme .text-white\/40,
+html.light-theme .text-white\/50,
+html.light-theme .text-white\/60,
+html.light-theme .text-white\/70 {
+  color: #475569 !important;
+}
+
+/* RTL Layout Adjustments */
+html[dir="rtl"] body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html[dir="rtl"] .border-r {
+  border-right-width: 0px !important;
+  border-left-width: 1px !important;
+}
+
+html[dir="rtl"] .border-l {
+  border-left-width: 0px !important;
+  border-right-width: 1px !important;
+}

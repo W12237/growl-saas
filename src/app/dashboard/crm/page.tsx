@@ -5,16 +5,9 @@ import useSWR from 'swr';
 import { Card, Badge, Avatar, Button, Modal, Input } from '@/components/ui';
 import { formatCurrency } from '@/lib/formatters';
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+import { useLanguage } from '@/lib/i18n';
 
-const stages = [
-  { id: 'lead', label: 'New Leads', color: '#60A5FA' },
-  { id: 'prospect', label: 'Prospects', color: '#8B5CF6' },
-  { id: 'meeting', label: 'Meeting', color: '#FBBF24' },
-  { id: 'proposal', label: 'Proposal', color: '#F59E0B' },
-  { id: 'contract', label: 'Contract', color: '#34D399' },
-  { id: 'client', label: 'Won', color: '#B6FF2E' },
-];
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 function LeadCard({ lead, onDragStart, onDelete }: { lead: any, onDragStart: (e: React.DragEvent, leadId: string) => void, onDelete: (id: string) => void }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -25,7 +18,7 @@ function LeadCard({ lead, onDragStart, onDelete }: { lead: any, onDragStart: (e:
       onDragStart={(e) => onDragStart(e, lead.id)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="p-3.5 rounded-xl bg-[#0A0A0A]/60 border border-white/[0.06] hover:border-white/15 transition-all cursor-grab active:cursor-grabbing group hover:shadow-lg relative"
+      className="p-3.5 rounded-xl bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] hover:border-[var(--color-border-hover)] transition-all cursor-grab active:cursor-grabbing group hover:shadow-lg relative"
     >
       <div className="flex items-start justify-between mb-2">
         <h4 className="text-sm font-bold text-white group-hover:text-[#B6FF2E] transition-colors truncate pr-2">{lead.company}</h4>
@@ -58,7 +51,17 @@ function LeadCard({ lead, onDragStart, onDelete }: { lead: any, onDragStart: (e:
 }
 
 export default function CRMPage() {
-  const { data: leads, mutate, isLoading } = useSWR('/api/crm', fetcher, { fallbackData: [] });
+  const { t } = useLanguage();
+  const { data: leads, isLoading, mutate } = useSWR('/api/crm', fetcher);
+  const { data: team } = useSWR('/api/team', fetcher, { fallbackData: [] });
+
+  const stages = [
+    { id: 'lead', label: t('crm.stage.lead'), color: '#60A5FA' },
+    { id: 'prospect', label: t('crm.stage.prospect'), color: '#8B5CF6' },
+    { id: 'meeting', label: t('crm.stage.meeting'), color: '#FBBF24' },
+    { id: 'proposal', label: t('crm.stage.proposal'), color: '#F59E0B' },
+    { id: 'client', label: t('crm.stage.closed'), color: '#B6FF2E' },
+  ];
   
   const [draggedLead, setDraggedLead] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<string | null>(null);
@@ -72,7 +75,7 @@ export default function CRMPage() {
     email: '',
     value: '5000',
     probability: '20',
-    assignedTo: 'Alex M'
+    assignedTo: 'Wessam'
   });
 
   const getLeadsByStage = (stageId: string) => {
@@ -87,27 +90,15 @@ export default function CRMPage() {
 
   const handleDragStart = (e: React.DragEvent, leadId: string) => {
     setDraggedLead(leadId);
-    e.dataTransfer.effectAllowed = 'move';
-    
-    const ghost = e.currentTarget.cloneNode(true) as HTMLElement;
-    ghost.style.position = 'absolute';
-    ghost.style.top = '-1000px';
-    ghost.style.opacity = '0.5';
-    document.body.appendChild(ghost);
-    e.dataTransfer.setDragImage(ghost, 20, 20);
-    setTimeout(() => document.body.removeChild(ghost), 0);
+    e.dataTransfer.setData('text/plain', leadId);
   };
 
   const handleDragOver = (e: React.DragEvent, stageId: string) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    if (dragOverStage !== stageId) {
-      setDragOverStage(stageId);
-    }
+    setDragOverStage(stageId);
   };
 
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
+  const handleDragLeave = () => {
     setDragOverStage(null);
   };
 
@@ -132,10 +123,6 @@ export default function CRMPage() {
             body: JSON.stringify({ id: draggedLead, stage: stageId })
           });
           
-          if (stageId === 'client') {
-            // Automation alert!
-            alert(`🎉 Lead "${currentLead.company}" won! A new Project and Initial Invoice have been automatically generated.`);
-          }
           mutate();
         } catch (err) {
           console.error('Failed to update lead:', err);
@@ -163,11 +150,15 @@ export default function CRMPage() {
       await fetch('/api/crm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          value: parseFloat(formData.value) || 0,
+          probability: parseInt(formData.probability) || 10,
+        })
       });
       mutate();
       setIsModalOpen(false);
-      setFormData({ company: '', contactPerson: '', email: '', value: '5000', probability: '20', assignedTo: 'Alex M' });
+      setFormData({ company: '', contactPerson: '', email: '', value: '5000', probability: '20', assignedTo: 'Wessam' });
     } catch (err) {
       console.error('Failed to create lead:', err);
     } finally {
@@ -185,19 +176,19 @@ export default function CRMPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 shrink-0">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#60A5FA]/10 border border-[#60A5FA]/20 flex items-center justify-center shadow-[0_0_15px_rgba(96,165,250,0.15)] text-[#60A5FA]">
+            <div className="w-10 h-10 rounded-xl bg-[#60A5FA]/10 border border-[#60A5FA]/20 flex items-center justify-center text-[#60A5FA]">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Sales Pipeline</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('crm.title')}</h1>
           </div>
-          <p className="text-white/40 text-sm">Manage leads, track deals, and forecast revenue.</p>
+          <p className="text-[var(--color-text-muted)] text-sm">{t('crm.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2 rounded-xl bg-black/20 border border-white/5 hidden sm:block">
-            <span className="text-xs text-white/40 uppercase tracking-wider font-bold mr-2">Pipeline Value:</span>
-            <span className="text-sm font-black text-[#B6FF2E]">{formatCurrency(totalValue)}</span>
+          <div className="px-4 py-2 rounded-xl bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] hidden sm:block">
+            <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-bold mr-2">Pipeline Value:</span>
+            <span className="text-sm font-black text-[var(--color-growl-lime)]">{formatCurrency(totalValue)}</span>
           </div>
-          <Button variant="primary" onClick={() => setIsModalOpen(true)}>Add Lead</Button>
+          <Button variant="primary" onClick={() => setIsModalOpen(true)}>{t('crm.addLead')}</Button>
         </div>
       </div>
 
