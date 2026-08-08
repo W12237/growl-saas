@@ -20,9 +20,12 @@ import {
   Trash2
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function AutomationDashboard() {
+  const { t } = useLanguage();
   const { data: automations, mutate, isLoading } = useSWR('/api/automation', fetcher, { fallbackData: [] });
   
   const [activeTab, setActiveTab] = useState('workflows');
@@ -145,17 +148,17 @@ export default function AutomationDashboard() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/20 flex items-center justify-center shadow-[0_0_15px_rgba(182,255,46,0.15)] text-[#B6FF2E]">
+            <div className="w-10 h-10 rounded-xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/20 flex items-center justify-center text-[#B6FF2E]">
               <Zap className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Automations</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('meetings.automationTitle')}</h1>
           </div>
-          <p className="text-white/40 max-w-xl text-sm leading-relaxed">
-            Build visual workflows to connect your apps, automate repetitive tasks, and scale your agency's operations.
+          <p className="text-[var(--color-text-muted)] max-w-xl text-sm leading-relaxed">
+            {t('meetings.automationSubtitle')}
           </p>
         </div>
         <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsModalOpen(true)}>
-          Create Workflow
+          {t('common.save')}
         </Button>
       </div>
 

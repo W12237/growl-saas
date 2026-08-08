@@ -22,6 +22,8 @@ import {
   HardDrive
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 // Format bytes
@@ -35,6 +37,7 @@ function formatBytes(bytes: number, decimals = 2) {
 }
 
 export default function FilesPage() {
+  const { t } = useLanguage();
   const [activeFolder, setActiveFolder] = useState('all');
   const [search, setSearch] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -90,19 +93,16 @@ export default function FilesPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 shrink-0">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.15)] text-[#8B5CF6]">
+            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6]">
               <Folder className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Digital Assets</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('files.title')}</h1>
           </div>
-          <p className="text-white/40 text-sm">Store, organize, and share all your creative files and documents.</p>
+          <p className="text-[var(--color-text-muted)] text-sm">{t('files.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" icon={<HardDrive className="w-4 h-4" />}>
-            Connect Google Drive
-          </Button>
           <Button variant="primary" icon={<Upload className="w-4 h-4" />}>
-            Upload Files
+            {t('files.upload')}
           </Button>
         </div>
       </div>

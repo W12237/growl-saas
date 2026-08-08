@@ -23,9 +23,12 @@ import {
   Trash2
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function FinancePage() {
+  const { t } = useLanguage();
   const { data: invoices, mutate: mutateInvoices, isLoading: invoicesLoading } = useSWR('/api/invoices', fetcher, { fallbackData: [] });
   const { data: transactions, mutate: mutateTransactions, isLoading: transactionsLoading } = useSWR('/api/transactions', fetcher, { fallbackData: [] });
   
@@ -133,24 +136,18 @@ export default function FinancePage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.15)] text-[#8B5CF6]">
+            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6]">
               <DollarSign className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Financial Overview</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('finance.title')}</h1>
           </div>
-          <p className="text-white/40 max-w-xl text-sm leading-relaxed">
-            Track your agency's revenue, expenses, and cash flow in real-time. Manage invoices and subscriptions.
+          <p className="text-[var(--color-text-muted)] max-w-xl text-sm leading-relaxed">
+            {t('finance.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" icon={<Download className="w-4 h-4" />} onClick={exportToCSV}>
-            Export
-          </Button>
-          <Button variant="outline" icon={<Plus className="w-4 h-4" />} onClick={() => setIsTxModalOpen(true)}>
-            Log Transaction
-          </Button>
           <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsInvoiceModalOpen(true)}>
-            Create Invoice
+            {t('finance.newInvoice')}
           </Button>
         </div>
       </div>

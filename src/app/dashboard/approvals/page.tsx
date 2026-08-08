@@ -21,9 +21,12 @@ import {
   Trash2
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function ApprovalsDashboard() {
+  const { t } = useLanguage();
   const { data: approvals, mutate, isLoading } = useSWR('/api/approvals', fetcher, { fallbackData: [] });
   const [activeTab, setActiveTab] = useState('pending');
   const [search, setSearch] = useState('');
@@ -112,21 +115,18 @@ export default function ApprovalsDashboard() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#664893]/10 border border-[#664893]/20 flex items-center justify-center shadow-[0_0_15px_rgba(102,72,147,0.15)] text-[#8B5CF6]">
+            <div className="w-10 h-10 rounded-xl bg-[#664893]/10 border border-[#664893]/20 flex items-center justify-center text-[#8B5CF6]">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Approvals</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('approvals.title')}</h1>
           </div>
-          <p className="text-white/40 max-w-xl text-sm leading-relaxed">
-            Review and manage creative assets, deliverables, and content submitted by your team before client delivery.
+          <p className="text-[var(--color-text-muted)] max-w-xl text-sm leading-relaxed">
+            {t('approvals.subtitle')}
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" icon={<Filter className="w-4 h-4" />} className="hidden sm:flex">
-            Filter
-          </Button>
           <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsModalOpen(true)}>
-            Submit Asset
+            {t('common.save')}
           </Button>
         </div>
       </div>

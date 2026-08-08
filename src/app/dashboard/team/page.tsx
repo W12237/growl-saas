@@ -16,9 +16,12 @@ import {
   Shield
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function TeamPage() {
+  const { t } = useLanguage();
   const { data: auth } = useSWR('/api/auth/me', fetcher, { fallbackData: null });
   const { data: team, mutate, isLoading } = useSWR('/api/team', fetcher, { fallbackData: [] });
   const { data: policies } = useSWR(auth?.user?.role === 'Admin' ? '/api/policies' : null, fetcher, { fallbackData: [] });
@@ -113,17 +116,17 @@ export default function TeamPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 shrink-0">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.15)] text-[#8B5CF6]">
+            <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6]">
               <Users className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Team Directory</h1>
+            <h1 className="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{t('team.title')}</h1>
           </div>
-          <p className="text-white/40 text-sm">Manage your agency members, roles, and track performance.</p>
+          <p className="text-[var(--color-text-muted)] text-sm">{t('team.subtitle')}</p>
         </div>
         {isAdmin && (
           <div className="flex items-center gap-3">
             <Button variant="primary" icon={<Plus className="w-4 h-4" />} onClick={() => setIsModalOpen(true)}>
-              Add Member
+              {t('team.addMember')}
             </Button>
           </div>
         )}

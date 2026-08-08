@@ -14,9 +14,22 @@ interface ContentChatbotProps {
   onSaveContent: (content: string, platform: string | undefined) => void;
 }
 
+import { useLanguage } from '@/lib/i18n';
+
+interface ChatMessage {
+  role: 'user' | 'ai';
+  content: string;
+  platform?: string;
+}
+
+interface ContentChatbotProps {
+  onSaveContent: (content: string, platform: string | undefined) => void;
+}
+
 export function ContentChatbot({ onSaveContent }: ContentChatbotProps) {
+  const { t, language } = useLanguage();
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'ai', content: "Hi! I'm your AI Content Assistant. What would you like to create today? You can specify the platform (Twitter, LinkedIn, Blog) and the topic." }
+    { role: 'ai', content: language === 'ar' ? "مرحباً! أنا مساعد المحتوى الذكي. ماذا تريد أن نكتب اليوم؟ يمكنك اختيار المنصة والموضوع." : "Hi! I'm your AI Content Assistant. What would you like to create today? You can specify the platform (Twitter, LinkedIn, Blog) and the topic." }
   ]);
   const [input, setInput] = useState('');
   const [selectedPlatform, setSelectedPlatform] = useState('Twitter');
@@ -39,7 +52,7 @@ export function ContentChatbot({ onSaveContent }: ContentChatbotProps) {
       const res = await fetch('/api/content/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: userMessage, platform: selectedPlatform }),
+        body: JSON.stringify({ prompt: userMessage, platform: selectedPlatform, language }),
       });
       const data = await res.json();
       
@@ -56,19 +69,19 @@ export function ContentChatbot({ onSaveContent }: ContentChatbotProps) {
   };
 
   return (
-    <Card padding="none" className="w-full lg:w-5/12 flex flex-col border-white/5 bg-black/20 overflow-hidden relative">
+    <Card padding="none" className="w-full lg:w-5/12 flex flex-col border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] overflow-hidden relative">
       <div className="absolute top-0 left-0 w-64 h-64 bg-[#B6FF2E]/5 rounded-full blur-3xl -ml-32 -mt-32 pointer-events-none"></div>
       
       {/* Chat Header */}
-      <div className="p-5 border-b border-white/5 bg-white/[0.02] relative z-10 flex flex-col gap-4">
+      <div className="p-5 border-b border-[var(--color-border-primary)] bg-[var(--color-bg-tertiary)] relative z-10 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B6FF2E] to-[#34D399] flex items-center justify-center text-black shadow-[0_0_15px_rgba(182,255,46,0.2)]">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B6FF2E] to-[#34D399] flex items-center justify-center text-black">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-tight">Content Assistant</h2>
-              <p className="text-xs text-[#34D399] font-medium">Powered by Gemini</p>
+              <h2 className="text-base font-bold text-[var(--color-text-primary)] tracking-tight">{t('nav.content')} {t('ai.assistant')}</h2>
+              <p className="text-xs text-[#34D399] font-medium">Free AI Inference</p>
             </div>
           </div>
         </div>

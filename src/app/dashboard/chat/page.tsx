@@ -17,9 +17,12 @@ import {
   Sparkles
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/i18n';
+
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function ChatDashboard() {
+  const { t } = useLanguage();
   const [activeChannel, setActiveChannel] = useState('general');
   const [message, setMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
