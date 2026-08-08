@@ -52,6 +52,13 @@ export async function requireRole(req: NextRequest, roles: string[]): Promise<Au
 }
 
 /**
+ * Require Admin role. Returns the user or a 403 response.
+ */
+export async function requireAdmin(req: NextRequest): Promise<AuthUser | NextResponse> {
+  return requireRole(req, ['Admin']);
+}
+
+/**
  * Check if a user has a specific permission via their assigned policies.
  */
 export async function checkPermission(userId: string, resource: string, action: string): Promise<boolean> {

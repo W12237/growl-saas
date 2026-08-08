@@ -351,7 +351,8 @@ export function Skeleton({ className = '', variant = 'text', width, height }: Sk
 // ============================================================
 
 interface ModalProps {
-  open: boolean;
+  open?: boolean;
+  isOpen?: boolean;
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
@@ -365,8 +366,9 @@ const modalSizes = {
   xl: 'max-w-4xl',
 };
 
-export function Modal({ open, onClose, title, children, size = 'md' }: ModalProps) {
-  if (!open) return null;
+export function Modal({ open, isOpen, onClose, title, children, size = 'md' }: ModalProps) {
+  const isModalOpen = open ?? isOpen ?? false;
+  if (!isModalOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4" role="dialog" aria-modal="true">
